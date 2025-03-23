@@ -1,4 +1,3 @@
-// Add your code here
 function submitData(name, email) {
     return fetch("http://localhost:3000/users", {
       method: "POST",
@@ -11,7 +10,13 @@ function submitData(name, email) {
         email: email
       })
     })
-    .then(response => response.json())
+    .then(response => {
+      // Check if the response status is NOT in the 200-299 range (success range)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       const idElement = document.createElement("p");
       idElement.textContent = `ID: ${data.id}`;
